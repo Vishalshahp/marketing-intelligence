@@ -20,8 +20,8 @@ import SettingsPage from './pages/SettingsPage';
 
 export default function App() {
   return (
-    <WorkspaceProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <WorkspaceProvider>
         <Routes>
           {/* Public Website Routes */}
           <Route path="/" element={<LandingPage />} />
@@ -44,7 +44,7 @@ export default function App() {
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
-    </WorkspaceProvider>
+      </WorkspaceProvider>
+    </BrowserRouter>
   );
 }
