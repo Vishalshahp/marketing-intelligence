@@ -1,0 +1,77 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+:root {
+  --color-navy: #14243A;      /* Headings, sidebar, primary chrome */
+  --color-blue: #356AE6;      /* Primary buttons, links, active tab */
+  --color-teal: #16B8A6;      /* Secondary accents, charts */
+  --color-canvas: #F5F7FB;    /* App background surface */
+  --color-surface: #FFFFFF;   /* Cards, tables, modals */
+  --color-border: #E2E8F0;    /* Dividing lines, inputs */
+  --color-text: #182230;      /* High-contrast body text */
+  --color-muted: #667085;     /* Captions, timestamps, subheaders */
+  --color-success: #16804A;   /* Positive status, gain indicators */
+  --color-warning: #9A5B00;   /* Caution, pending sync, missing data */
+  --color-error: #B42318;     /* Ingestion failure, critical alert */
+}
+
+@theme {
+  --color-navy: #14243A;
+  --color-navy-hover: #0F1A2A;
+  --color-navy-light: #1F3452;
+  --color-blue: #356AE6;
+  --color-blue-hover: #2954C2;
+  --color-blue-light: #EBF1FD;
+  --color-teal: #16B8A6;
+  --color-teal-hover: #0D9488;
+  --color-teal-light: #E6FAF8;
+  --color-canvas: #F5F7FB;
+  --color-surface: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-text: #182230;
+  --color-muted: #667085;
+  --color-success: #16804A;
+  --color-success-light: #EDF7F1;
+  --color-warning: #9A5B00;
+  --color-warning-light: #FFF9EB;
+  --color-error: #B42318;
+  --color-error-light: #FDF2F2;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--color-canvas);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Print Styles for PDF / Print view */
+@media print {
+  body {
+    background-color: #ffffff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}

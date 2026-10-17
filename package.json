@@ -1,0 +1,13 @@
+{
+  "name": "hezal-marketing-intelligence",
+  "version": "2.0.0",
+  "description": "Project Hezal - Marketing Intelligence Platform Monorepo",
+  "private": true,
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "seed": "npm --prefix server run seed",
+    "test": "npm --prefix server test"
+  }
+}
