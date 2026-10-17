@@ -20,7 +20,10 @@ export const ALIAS_DICTIONARY = {
 
 export function autoDetectMapping(headers) {
   const mapping = {};
-  const lowerHeaders = headers.map(h => ({ original: h, normalized: h.toLowerCase().trim() }));
+  const lowerHeaders = headers.map(h => ({
+    original: h,
+    normalized: String(h).replace(/^[\uFEFF\u200B"']+|["']+$/g, '').trim().toLowerCase()
+  }));
 
   for (const [targetField, aliases] of Object.entries(ALIAS_DICTIONARY)) {
     for (const item of lowerHeaders) {

@@ -57,9 +57,10 @@ router.post('/', authenticateAndScopeTenant, async (req, res) => {
 // POST /api/workspaces/switch - Switch active workspace
 router.post('/switch', authenticateAndScopeTenant, async (req, res) => {
   try {
-    const { workspaceId } = req.body;
     if (!workspaceId) return res.status(400).json({ error: 'Target workspaceId is required.' });
-
+    if (!mongoose.Types.ObjectId.isValid(workspaceId)) {
+      return res.status(400).json({ error: 'Invalid workspace ID format.' });
+    }
     const target = await Workspace.findById(workspaceId);
     if (!target) return res.status(404).json({ error: 'Workspace not found.' });
 

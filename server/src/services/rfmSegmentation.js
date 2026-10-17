@@ -7,21 +7,42 @@ import { CustomerCohort } from '../models/CustomerCohort.js';
 function normalizeFeatures(records) {
   if (records.length === 0) return [];
   
-  // Calculate min/max for min-max scaling to equalize feature influence
-  const recencies = records.map(r => r.recency_days);
-  const frequencies = records.map(r => r.order_count);
-  const logSpends = records.map(r => Math.log(1 + Math.max(0, r.monetary_total_spend)));
+  // Calculate min/max safely without call-stack overflow on large datasets
+  let minR = Infinity, maxR = -Infinity;
+  let minF = Infinity, maxF = -Infinity;
+  let minM = Infinity, maxM = -Infinity;
 
-  const minR = Math.min(...recencies), maxR = Math.max(...recencies) || 1;
-  const minF = Math.min(...frequencies), maxF = Math.max(...frequencies) || 1;
-  const minM = Math.min(...logSpends), maxM = Math.max(...logSpends) || 1;
+  const recencies = [];
+  const frequencies = [];
+  const logSpends = [];
 
-  return records.map((r, idx) => ({
-    original: r,
+  for (let i = 0; i < records.length; i++) {
+    const r = records[i].recency_days || 0;
+    const f = records[i].order_count || 0;
+    const m = Math.log(1 + Math.max(0, records[i].monetary_total_spend || 0));
+
+    recencies.push(r);
+    frequencies.push(f);
+    logSpends.push(m);
+
+    if (r < minR) minR = r;
+    if (r > maxR) maxR = r;
+    if (f < minF) minF = f;
+    if (f > maxF) maxF = f;
+    if (m < minM) minM = m;
+    if (m > maxM) maxM = m;
+  }
+
+  const rangeR = maxR - minR || 1;
+  const rangeF = maxF - minF || 1;
+  const rangeM = maxM - minM || 1;
+
+  return records.map((record, idx) => ({
+    original: record,
     vector: [
-      (recencies[idx] - minR) / (maxR - minR || 1),
-      (frequencies[idx] - minF) / (maxF - minF || 1),
-      (logSpends[idx] - minM) / (maxM - minM || 1)
+      (recencies[idx] - minR) / rangeR,
+      (frequencies[idx] - minF) / rangeF,
+      (logSpends[idx] - minM) / rangeM
     ]
   }));
 }

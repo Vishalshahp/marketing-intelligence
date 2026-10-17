@@ -120,6 +120,9 @@ router.get('/history', authenticateAndScopeTenant, async (req, res) => {
 // DELETE /api/imports/:id - Roll back import batch
 router.delete('/:id', authenticateAndScopeTenant, async (req, res) => {
   try {
+    if (!req.params.id || req.params.id.length !== 24) {
+      return res.status(400).json({ error: 'Invalid import batch ID format.' });
+    }
     const job = await ImportJob.findOne({
       _id: req.params.id,
       workspace_id: req.workspaceId

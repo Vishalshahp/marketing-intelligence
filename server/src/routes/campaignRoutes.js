@@ -20,7 +20,8 @@ router.get('/', authenticateAndScopeTenant, async (req, res) => {
       query.channel = channel.toUpperCase();
     }
     if (search) {
-      query.campaign_name = { $regex: search, $options: 'i' };
+      const escapedSearch = String(search).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      query.campaign_name = { $regex: escapedSearch, $options: 'i' };
     }
 
     const records = await DailyCampaignMetric.find(query);
